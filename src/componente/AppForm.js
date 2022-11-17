@@ -38,7 +38,13 @@ const AppForm = (props) => {
     }                    
        
            
-          
+    const validarForm = () => {
+        if(objeto.url===""|| /^\s+$/.test(objeto.url)){
+            alert("Escriba url...");
+            return false;                                     //Si no tiene texto
+        }
+        return true;                                          //Si tiene texto
+    };       
 
     useEffect(() => {
 
@@ -69,7 +75,7 @@ const AppForm = (props) => {
             <input type="text" name="NOMBRE" placeholder="NOMBRES..."
             onChange={hanleStatuschange} value={objeto.url} /> <br/>
 
-            <input type="text" name="EDAD" placeholder="EDAD..."
+            <input type="int" name="EDAD" placeholder="EDAD..."
             onChange={hanleStatuschange} value={objeto.nombre} /> <br/>
 
             <input type="text" name="GENERO" placeholder="GENERO..."
