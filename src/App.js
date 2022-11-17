@@ -31,8 +31,8 @@ function App() {
 
   return (
     <div style={{width:"350px", background:"greenyellow", padding:"10px"}} >
-      <h1>READ / DELETE</h1>
-      <h1>sitiocopia1 (App.Js)</h1>
+      <h1>REGISTRO</h1>
+      
       <AppForm {...{idActual, setIdActual, fnRead}} />
       {
         //docsBD.map( (p) => 
