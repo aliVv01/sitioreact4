@@ -8,49 +8,56 @@ const AppForm = (props) => {
     ///////////////////////////////////////////////////////////////
     ////////////////////CREAR - fnCrear - Guardar//////////////////
     ///////////////////////////////////////////////////////////////
-    const camposRegistro = {url:"", nombre:"", descripcion:""};   //estructura tbL {nombre:"", edad:"", genero:""};
+    const camposRegistro = {NOMBRES:"", EDAD:"", GENERO:""};   //estructura tbL {nombre:"", edad:"", genero:""};
     const [objeto, setObjeto] = useState(camposRegistro);     //Tabla u objeto
 
     const hanleStatuschange = (e) => {                        //Manejo cambios en input...
-        const {name, value} = e.target;                       //Capta lo que se escribe
-        setObjeto({...objeto, [name]:value });                //Asigna al objeto name y value
-        //console.log(objeto);                                //Ver en tiempo real
-    }
+    }                             
 
-    const handleSubmit = async (e) => {                       //Manejo submit (emvio)
-        e.preventDefault();                                   //evitar por defecto (false)
-        //////////REGISTRAR////////////////////////////////////////
-        if(props.idActual === ""){
-            //console.log(props.idActual);                    //Verificar idActual
-            if(validarForm()){                                //Verificar
-                addDoc(collection(db, 'favoritos'), objeto);    //CREAR
-                console.log('Se guardo...');                  //Msj
-                props.fnRead();                               //Actualizar LECTURA BD
+    const handleSubmit = async (e) => {   
+        try{
+            e.preventDefault();
+            ////////////// REGISTRAR O ACTUALIZAR/////////////////
+            if(props.idActual === ""){
+                if(validadForm()){
+                    addDoc(collection(db,'persona'),objeto);
+                    console.log('Se guardó...');
+                }else{
+                    console.log('No se guardó...');
+                }
             }else{
-                console.log('No se guardo...');
+                await updateDoc(doc(collection(db, "persona"), props.idActual), objeto);
+                console.log("Se actualizó...");
+                props.setIdActual('');
+            
             }
-        }else{
-
+            setObjeto(campoRegistro);
+        } catch (error) {
+            console.log("Error en CREAR: ", error);
         }
-        setObjeto(camposRegistro);                             //Limpiar objeto
-    }
-    /////////////////////////////VALIDACIÓN////////////////////////
-    const validarForm = () => {
-        if(objeto.url===""|| /^\s+$/.test(objeto.url)){
-            alert("Escriba url...");
-            return false;                                     //Si no tiene texto
-        }
-        return true;                                          //Si tiene texto
-    };
-    ///////////////////////////////////////////////////////////////
-    ////////////////////UPDATE - fnUpdate - Actualizar/////////////
+    }                    
+       
+           
+          
 
-    //console.log("props.idActual", props.idActual);
     useEffect(() => {
 
-    },[props.idActual]);
+        if(props.idActual === ""){
+            setObjeto({...camposRegistro});
+        }else{
+            obtenerDatosPorId(porps.idActual);
+        }
 
-    const obtenerDastosPorId = async (xId) =>{
+    }, [props.idActual]);
+
+    const obtenerDatosPorId = async (xId) =>{
+        const objPorId = doc(db, "persona", xId);
+        const docPorId = await getDoc(objPorId);
+        if (docPorId.exists()) {
+            setObjeto(docPorId.data());
+        } else {
+            console.log("No hay doc...");
+        }
         
     }
     //console.log(objeto);
@@ -59,13 +66,13 @@ const AppForm = (props) => {
         <div style={{background:"orange", padding:"10px", textAlign:"center"}}>
         <h1>AppForm.js</h1>
         <form onSubmit={handleSubmit}>
-            <input type="text" name="url" placeholder="url..."
+            <input type="text" name="NOMBRE" placeholder="NOMBRES..."
             onChange={hanleStatuschange} value={objeto.url} /> <br/>
 
-            <input type="text" name="nombre" placeholder="Nombre..."
+            <input type="text" name="EDAD" placeholder="EDAD..."
             onChange={hanleStatuschange} value={objeto.nombre} /> <br/>
 
-            <input type="text" name="descripcion" placeholder="Descripcion..."
+            <input type="text" name="GENERO" placeholder="GENERO..."
             onChange={hanleStatuschange} value={objeto.descripcion} /> <br/>
 
             <button>
