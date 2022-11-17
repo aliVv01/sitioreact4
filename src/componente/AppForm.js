@@ -19,7 +19,7 @@ const AppForm = (props) => {
             e.preventDefault();
             ////////////// REGISTRAR O ACTUALIZAR/////////////////
             if(props.idActual === ""){
-                if(validadForm()){
+                if(validarForm()){
                     addDoc(collection(db,'persona'),objeto);
                     console.log('Se guardó...');
                 }else{
@@ -31,7 +31,7 @@ const AppForm = (props) => {
                 props.setIdActual('');
             
             }
-            setObjeto(campoRegistro);
+            setObjeto(camposRegistro);
         } catch (error) {
             console.log("Error en CREAR: ", error);
         }
@@ -45,7 +45,7 @@ const AppForm = (props) => {
         if(props.idActual === ""){
             setObjeto({...camposRegistro});
         }else{
-            obtenerDatosPorId(porps.idActual);
+            obtenerDatosPorId(props.idActual);
         }
 
     }, [props.idActual]);
