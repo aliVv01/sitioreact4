@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, addDoc, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, addDoc, updateDoc, validarForm} from "firebase/firestore";
 //import {getDocs, query, setDoc, where, deleteDoc} from "firebase/firestore";
 import React, { useEffect, useState } from 'react';
 import firebase, { db } from './firebase';
@@ -19,7 +19,7 @@ const AppForm = (props) => {
             e.preventDefault();
             ////////////// REGISTRAR O ACTUALIZAR/////////////////
             if(props.idActual === ""){
-                if(validarForm()){
+                if(validadForm()){
                     addDoc(collection(db,'persona'),objeto);
                     console.log('Se guardó...');
                 }else{

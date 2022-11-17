@@ -1,4 +1,4 @@
-import { collection, getDocs, query, doc, deleteDoc, where, onSnapshot, } from "firebase/firestore";
+import { collection, getDocs, query, doc, deleteDoc, where, onSnapshot, validarForm} from "firebase/firestore";
 //import {getDoc, addDoc, updateDoc, setDoc, increment } from "firebase/firestore";
 import React, { useEffect,useState } from 'react';
 import { db } from './componente/firebase';
